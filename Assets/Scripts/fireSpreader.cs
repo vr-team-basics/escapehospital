@@ -10,7 +10,7 @@ public class fireSpreader : MonoBehaviour
     public GameObject fireBoxInst;
     public GameObject fireInst;
 
-    private int isOnFire = 0;
+    //private int isOnFire = 0;
     private Vector3 clonePos;
 
     public List<GameObject> fireBoxes = new List<GameObject>();
@@ -28,7 +28,10 @@ public class fireSpreader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown("space"))
+        {
+            roomFiller();
+        }
     }
 
     void roomFiller()
