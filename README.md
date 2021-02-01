@@ -2,4 +2,4 @@
 
 ## Proposal Video:
 
-<video src="https:/vr-team-basics.github.io/escapehospital/ProposalVideo/VRproposalVideo-escapeHospital.mp4" width="800" height="600" controls preload></video>
+<video src="https://vr-team-basics.github.io/escapehospital/ProposalVideo/VRproposalVideo-escapeHospital.mp4" width="800" height="600" controls preload></video>
