@@ -64,7 +64,10 @@ public class fireSpreader : MonoBehaviour
                 if ((rndFire == 1))// && !(x == (-size / 2) + grid || x == (size / 2) - grid))
                 {
                     clonePos = new Vector3(x, -0.6f, z);
-                    fires.Add(Instantiate(fireInst, clonePos, fireInst.transform.rotation));
+                    GameObject fire = Instantiate(fireInst, clonePos, fireInst.transform.rotation);
+                    // Add this tag to distinguish Fires
+                    fire.tag = "Fire";
+                    fires.Add(fire);
                 }
             }
 
