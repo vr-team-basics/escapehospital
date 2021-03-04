@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Fire
+  - Flammable
+  - fire
+  - NotFlammable
+  - fireExtinguisher
+  - GetDistanceParticles
   layers:
   - Default
   - TransparentFX
