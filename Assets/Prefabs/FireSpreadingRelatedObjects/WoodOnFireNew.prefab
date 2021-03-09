@@ -4818,7 +4818,7 @@ GameObject:
   - component: {fileID: 5309205786858729572}
   m_Layer: 0
   m_Name: WoodOnFireNew
-  m_TagString: fire
+  m_TagString: Fire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
