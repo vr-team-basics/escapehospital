@@ -37,7 +37,8 @@ public class SwapWithShattered : MonoBehaviour
             // If other object is dense enough, spawn shattered variant. Only if it hasn't spawned one
             if (otherObject.GetComponent<Rigidbody>().mass >= MinMassThreshold && !spawnedShattered)
             {
-                GameObject newObject = Instantiate(ShatteredVariant, transform.position, transform.rotation);
+                // Make sure to keep parent to have all scales applied
+                GameObject newObject = Instantiate(ShatteredVariant, transform.position, transform.rotation, transform.parent);
                 newObject.transform.localScale = transform.localScale;
                 spawnedShattered = true;
 
