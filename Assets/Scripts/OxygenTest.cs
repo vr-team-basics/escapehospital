@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class OxygenTest : MonoBehaviour
@@ -30,6 +31,8 @@ public class OxygenTest : MonoBehaviour
     // Amount of fires
     private uint NumOfFire;
 
+    public Text uiText;
+
     // Calculate amount of oxygen every n seconds
     private void CalculateOxygen()
     {
@@ -44,13 +47,15 @@ public class OxygenTest : MonoBehaviour
         }
 
         // LOGs
-        Debug.Log("Current Oxygen: " + Oxygen + "Number of fires: " + NumOfFire);
+        uiText.text = "Current Oxygen: " + Oxygen + " Number of fires: " + NumOfFire;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         NumOfFire = 0;
+
+        uiText = GameObject.FindGameObjectsWithTag("uiText")[0].GetComponent<Text>();
 
         // Call calculation method.
         InvokeRepeating("CalculateOxygen", 2.0f, Seconds);

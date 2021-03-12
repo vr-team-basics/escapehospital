@@ -4,12 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Fire
   - Flammable
   - fire
   - NotFlammable
   - fireExtinguisher
   - GetDistanceParticles
+  - uiText
+  - left-hand
+  - right-hand
   layers:
   - Default
   - TransparentFX

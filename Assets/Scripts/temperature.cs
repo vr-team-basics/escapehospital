@@ -6,12 +6,12 @@ public class temperature : MonoBehaviour
 {
 
 
-    private float[] heatCapacity;
+    private int heatCapacity;
     private Collider[] hitcolliders;
     public GameObject firePreFab;
     private Mesh mesh;
     private Vector3[] vertices;
-    static private float threshold = 2000.0f;
+    static private int threshold = 2000;
     public GameObject firepropagatingPreFab;
     private int done;
 
@@ -29,7 +29,7 @@ public class temperature : MonoBehaviour
 
     void GettingHotter()
     {
-        this.heatCapacity += 10.0f;
+        this.heatCapacity += 10;
     }
 
     // Update is called once per frame
