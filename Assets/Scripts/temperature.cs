@@ -6,7 +6,7 @@ public class temperature : MonoBehaviour
 {
 
 
-    private float[] heatCapacity;
+    private float heatCapacity;
     private Collider[] hitcolliders;
     public GameObject firePreFab;
     private Mesh mesh;
