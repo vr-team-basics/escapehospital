@@ -70,7 +70,7 @@ public class OxygenTest : MonoBehaviour
 
         for (int i = 0; i < hitColliders.Length; i++)
         {
-            if(hitColliders[i].gameObject.tag.Equals("Fire"))
+            if(hitColliders[i].gameObject.tag.Equals("fire"))
             {
                 NumOfFire++;
             }

@@ -46,14 +46,14 @@ public class temperature : MonoBehaviour
                 hitcolliders = Physics.OverlapSphere(vertices[i], 2f);
                 foreach (Collider hitColide in hitcolliders)
                 {
-                    if (hitColide.tag == "Fire")
+                    if (hitColide.tag == "fire")
                     {
                         GettingHotter();
                         if (heatCapacity >= threshold && done == 0)
                         {
                             StartCoroutine(LetFireSpread(hitColide));
                             done = 1;
-                            this.tag = "Fire";
+                            this.tag = "fire";
                             break;
                         }
                     }

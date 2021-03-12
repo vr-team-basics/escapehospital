@@ -28,7 +28,7 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
         if (other.tag == "left-hand")
         {
             //check for the button being pressed indicating that the player is using the fire extinquisher
-            if (Input.GetKey("space"))
+            if (Input.GetKey(KeyCode.E))
             {
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();
@@ -51,7 +51,7 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
         if (other.tag == "right-hand")
         {
             //check for the button being pressed indicating that the player is using the fire extinquisher
-            if (Input.GetKey("space"))
+            if (Input.GetKey(KeyCode.E))
             {
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();

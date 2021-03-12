@@ -12,8 +12,8 @@ public class flashLighter : MonoBehaviour
     void Start()
     {
         lit = false;
-        thisLight = GameObject.Find("light");
-        thisSwitch = GameObject.Find("switch");
+        thisLight = this.transform.GetChild(0).GetChild(0).GetChild(3).gameObject;
+        thisSwitch = this.transform.GetChild(0).GetChild(0).GetChild(2).gameObject;
         thisLight.SetActive(lit);
     }
 
@@ -28,7 +28,7 @@ public class flashLighter : MonoBehaviour
         if (other.tag == "left-hand")
         {
             //check for the button being pressed indicating that the player is using the fire extinquisher
-            if (Input.GetKey("space"))
+            if (Input.GetKey(KeyCode.F))
             {
                 lit = !lit;
                 thisLight.SetActive(lit);
@@ -45,7 +45,7 @@ public class flashLighter : MonoBehaviour
         if (other.tag == "right-hand")
         {
             //check for the button being pressed indicating that the player is using the fire extinquisher
-            if (Input.GetKey("space"))
+            if (Input.GetKey(KeyCode.F))
             {
                 lit = !lit;
                 thisLight.SetActive(lit);

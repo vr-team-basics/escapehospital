@@ -11552,6 +11552,7 @@ GameObject:
   - component: {fileID: 7431662495198058587}
   - component: {fileID: 2998753353473907321}
   - component: {fileID: 112231860494661474}
+  - component: {fileID: 7881974904396264297}
   m_Layer: 0
   m_Name: Interactions.Interactable.flashlight
   m_TagString: fireExtinguisher
@@ -11692,6 +11693,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9ad9d812ac2524889189d3bdbc69d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7881974904396264297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4803896838154321537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934a3fb774178f4479654c5b7150dd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lit: 0
+  thisLight: {fileID: 0}
+  thisSwitch: {fileID: 0}
 --- !u!1 &4945497393393324737
 GameObject:
   m_ObjectHideFlags: 0
