@@ -33,6 +33,9 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();
 
+                // Play sound effect
+                this.GetComponent<AudioSource>().Play();
+
                 //play around with the arguments here
                 //Shoot out a raycastall to get a list of the colliders
                 hits = Physics.RaycastAll(thisParticle.transform.position, thisParticle.transform.forward, 15.0F);
@@ -55,6 +58,9 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
             {
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();
+
+                // Play sound effect
+                this.GetComponent<AudioSource>().Play();
 
                 //play around with the arguments here
                 //Shoot out a raycastall to get a list of the colliders
