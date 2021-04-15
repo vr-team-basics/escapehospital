@@ -9,7 +9,7 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
     //but how do i get a refernce to one of the buttons on the controller alias...
     private RaycastHit[] hits;
     private ParticleSystem thisParticle;
-
+    public GameObject goo;
     private void Start()
     {
         //get a reference to the particle system attached to THIS game obejct 
@@ -32,14 +32,14 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
             {
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();
-
+                goo = Instantiate(goo, goo.transform.position, goo.transform.rotation);
+                goo.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
                 // Play sound effect
                 this.GetComponent<AudioSource>().Play();
 
                 //play around with the arguments here
                 //Shoot out a raycastall to get a list of the colliders
                 hits = Physics.RaycastAll(thisParticle.transform.position, thisParticle.transform.forward, 15.0F);
-
                 //Loop over the colliders checking to see if they have the tag, "Fire"
                 foreach (RaycastHit hitObject in hits)
                 {
@@ -58,7 +58,7 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
             {
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();
-
+                
                 // Play sound effect
                 this.GetComponent<AudioSource>().Play();
 

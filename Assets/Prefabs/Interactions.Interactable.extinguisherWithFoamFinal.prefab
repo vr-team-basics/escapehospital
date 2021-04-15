@@ -5287,6 +5287,7 @@ GameObject:
   - component: {fileID: 4222347149695673174}
   - component: {fileID: 5079436479052124554}
   - component: {fileID: 6219232441098705094}
+  - component: {fileID: 6698739649931002307}
   m_Layer: 0
   m_Name: Interactions.Interactable.extinguisherWithFoamFinal
   m_TagString: fireExtinguisher
@@ -5535,6 +5536,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6698739649931002307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4830029955038417400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableSpatialization: 1
+  gain: 0
+  useInvSqr: 0
+  near: 0.25
+  far: 13
+  volumetricRadius: 0
+  reverbSend: 0
+  enableRfl: 1
 --- !u!1 &5429219622988713427
 GameObject:
   m_ObjectHideFlags: 0
