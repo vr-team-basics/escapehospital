@@ -32,9 +32,6 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
             {
                 //enable the particle system to start (foam is coming out)
                 thisParticle.Play();
-                goo = Instantiate(goo, goo.transform.position, goo.transform.rotation);
-                goo.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
-                // Play sound effect
                 this.GetComponent<AudioSource>().Play();
 
                 //play around with the arguments here
@@ -46,7 +43,7 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
                     //If they do, then delete them from the scene. 
                     if (hitObject.transform.tag == "fire")
                     {
-                        Destroy(hitObject.collider.gameObject);
+                        StartCoroutine(Wait(hitObject));
                     }
                 }
             }
@@ -72,11 +69,23 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
                     //If they do, then delete them from the scene. 
                     if (hitObject.transform.tag == "fire")
                     {
-                        Destroy(hitObject.collider.gameObject);
+                        StartCoroutine(Wait(hitObject));
                     }
                 }
             }
         }
+
+    }
+
+    private IEnumerator Wait(RaycastHit hitObject)
+    {
+        int waitIndex = 1;
+        while (waitIndex < 5)
+        {
+            yield return new WaitForSeconds(.5f);
+            waitIndex += 1;
+        }
+        Destroy(hitObject.collider.gameObject);
 
     }
 }

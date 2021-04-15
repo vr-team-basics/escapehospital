@@ -93,7 +93,7 @@ public class temperature : MonoBehaviour
         }
         
         //just use normal fire prefab now!
-        Instantiate(firepropagatingPreFab, this.transform.position, this.transform.rotation);
+        Instantiate(firepropagatingPreFab, this.transform.position, firepropagatingPreFab.transform.rotation);
 
        // Instantiate(firepropagatingPreFab, verticeIndex, this.transform.rotation);
 
