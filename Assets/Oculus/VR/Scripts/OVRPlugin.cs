@@ -43,7 +43,7 @@ public static class OVRPlugin
 #if OVRPLUGIN_UNSUPPORTED_PLATFORM
 	public static readonly System.Version wrapperVersion = _versionZero;
 #else
-	public static readonly System.Version wrapperVersion = OVRP_1_55_1.version;
+	public static readonly System.Version wrapperVersion = OVRP_1_59_0.version;
 #endif
 
 #if !OVRPLUGIN_UNSUPPORTED_PLATFORM
@@ -344,6 +344,7 @@ public static class OVRPlugin
 		Cubemap = 2,
 		OffcenterCubemap = 4,
 		Equirect = 5,
+		Fisheye = 9,
 	}
 
 	public enum Step
@@ -922,7 +923,11 @@ public static class OVRPlugin
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
 		public Rectf[] VisibleRect;
 		public Sizei MaxViewportSize;
-		EyeTextureFormat DepthFormat;
+		public EyeTextureFormat DepthFormat;
+
+		public EyeTextureFormat MotionVectorFormat;
+		public EyeTextureFormat MotionVectorDepthFormat;
+		public Sizei MotionVectorTextureSize;
 
 		public override string ToString()
 		{
@@ -1297,6 +1302,9 @@ public static class OVRPlugin
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = EventDataBufferSize)]
 		public byte[] EventData;
 	}
+
+
+/// Insight SDK type definitions
 
 	public static bool initialized
 	{
@@ -2006,6 +2014,16 @@ public static class OVRPlugin
 				else
 #endif
 					return false;
+			}
+
+			if (shape == OverlayShape.Fisheye)
+			{
+#if UNITY_ANDROID
+				if(version >= OVRP_1_55_0.version)
+					flags |= (uint)(shape) << OverlayShapeFlagShift;
+				else
+#endif
+				return false;
 			}
 
 			if (version >= OVRP_1_34_0.version && layerId != -1)
@@ -3848,6 +3866,34 @@ public static class OVRPlugin
 		}
 	}
 
+	public static bool eyeFovPremultipliedAlphaModeEnabled
+	{
+		get
+		{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+			return true;
+#else
+			Bool isEnabled = Bool.True;
+			if (version >= OVRP_1_57_0.version)
+			{
+				OVRP_1_57_0.ovrp_GetEyeFovPremultipliedAlphaMode(ref isEnabled);
+			}
+			return isEnabled == Bool.True ? true : false;
+#endif
+		}
+		set
+		{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+			return;
+#else
+			if (version >= OVRP_1_57_0.version)
+			{
+				OVRP_1_57_0.ovrp_SetEyeFovPremultipliedAlphaMode(ToBool(value));
+			}
+#endif
+		}
+	}
+
 	public static bool GetNodeFrustum2(Node nodeId, out Frustumf2 frustum)
 	{
 		frustum = default(Frustumf2);
@@ -3873,6 +3919,7 @@ public static class OVRPlugin
 		}
 #endif
 	}
+
 
 	public static bool AsymmetricFovEnabled
 	{
@@ -4147,6 +4194,18 @@ public static class OVRPlugin
 			EnumSize = 0x7fffffff
 		}
 
+		public enum PlatformCameraMode
+		{
+			Disabled = -1,
+			Initialized = 0,
+			UserControlled = 1,
+			SmartNavigated = 2,
+			StabilizedPoV = 3,
+			RemoteDroneControlled = 4,
+			RemoteSpatialMapped = 5,
+			EnumSize = 0x7fffffff
+		}
+
 		public enum InputVideoBufferType
 		{
 			Memory = 0,
@@ -4259,6 +4318,62 @@ public static class OVRPlugin
 			if (version >= OVRP_1_38_0.version)
 			{
 				return OVRP_1_38_0.ovrp_Media_SetMrcActivationMode(mode) == Result.Success;
+			}
+			else
+			{
+				return false;
+			}
+#endif
+		}
+
+		public static bool SetPlatformInitialized()
+		{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+			return false;
+#else
+			if (version >= OVRP_1_54_0.version)
+			{
+				return OVRP_1_54_0.ovrp_Media_SetPlatformInitialized() == Result.Success;
+			}
+			else
+			{
+				return false;
+			}
+#endif
+		}
+
+		public static PlatformCameraMode GetPlatformCameraMode()
+		{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+			return PlatformCameraMode.Disabled;
+#else
+			if (version >= OVRP_1_57_0.version)
+			{
+				PlatformCameraMode mode;
+				if (OVRP_1_57_0.ovrp_Media_GetPlatformCameraMode(out mode) == Result.Success)
+				{
+					return mode;
+				}
+				else
+				{
+					return default(PlatformCameraMode);
+				}
+			}
+			else
+			{
+				return default(PlatformCameraMode);
+			}
+#endif
+		}
+
+		public static bool SetPlatformCameraMode(PlatformCameraMode mode)
+		{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+			return false;
+#else
+			if (version >= OVRP_1_57_0.version)
+			{
+				return OVRP_1_57_0.ovrp_Media_SetPlatformCameraMode(mode) == Result.Success;
 			}
 			else
 			{
@@ -5008,6 +5123,7 @@ public static class OVRPlugin
 #endif
 	}
 
+
 	public static int GetLocalTrackingSpaceRecenterCount()
 	{
 #if OVRPLUGIN_UNSUPPORTED_PLATFORM
@@ -5061,10 +5177,11 @@ public static class OVRPlugin
 #else
 		if (version >= OVRP_1_49_0.version)
 		{
-#if UNITY_ANDROID
 			if (colorSpace == ColorSpace.Unknown)
-				colorSpace = ColorSpace.Quest;
-#endif
+			{
+				Debug.LogWarning("A color gamut of Unknown is not supported. Defaulting to Rift CV1 color space instead.");
+				colorSpace = ColorSpace.Rift_CV1;
+			}
 			return OVRP_1_49_0.ovrp_SetClientColorDesc(colorSpace) == Result.Success;
 		}
 		else
@@ -5162,6 +5279,23 @@ public static class OVRPlugin
 			}
 		}
 		return 0;
+#endif
+	}
+
+	public static bool SetKeyboardOverlayUV(Vector2f uv)
+	{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+		return false;
+#else
+		if (version >= OVRP_1_57_0.version)
+		{
+			Result result = OVRP_1_57_0.ovrp_SetKeyboardOverlayUV(uv);
+			return (result == Result.Success);
+		}
+		else
+		{
+			return false;
+		}
 #endif
 	}
 
@@ -6006,6 +6140,7 @@ public static class OVRPlugin
 
 		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Result ovrp_SetExternalCameraProperties(string cameraName, ref CameraIntrinsics cameraIntrinsics, ref CameraExtrinsics cameraExtrinsics);
+
 	}
 
 	private static class OVRP_1_49_0
@@ -6086,6 +6221,9 @@ public static class OVRPlugin
 	private static class OVRP_1_54_0
 	{
 		public static readonly System.Version version = new System.Version(1, 54, 0);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_Media_SetPlatformInitialized();
 	}
 
 	private static class OVRP_1_55_0
@@ -6113,6 +6251,44 @@ public static class OVRPlugin
 
 		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Result ovrp_PollEvent2(ref EventType eventType, ref IntPtr eventData);
+	}
+
+	private static class OVRP_1_56_0
+	{
+		public static readonly System.Version version = new System.Version(1, 56, 0);
+
+	}
+
+	private static class OVRP_1_57_0
+	{
+		public static readonly System.Version version = new System.Version(1, 57, 0);
+
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_Media_GetPlatformCameraMode(out Media.PlatformCameraMode platformCameraMode);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_Media_SetPlatformCameraMode(Media.PlatformCameraMode platformCameraMode);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_SetEyeFovPremultipliedAlphaMode(Bool enabled);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_GetEyeFovPremultipliedAlphaMode(ref Bool enabled);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_SetKeyboardOverlayUV(Vector2f uv);
+	}
+
+	private static class OVRP_1_58_0
+	{
+		public static readonly System.Version version = new System.Version(1, 58, 0);
+	}
+
+	private static class OVRP_1_59_0
+	{
+		public static readonly System.Version version = new System.Version(1, 59, 0);
+
 	}
 #endif // !OVRPLUGIN_UNSUPPORTED_PLATFORM
 }

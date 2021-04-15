@@ -14,6 +14,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+
 
 /// <summary>
 /// Add OVROverlay script to an object with an optional mesh primitive
@@ -56,6 +58,7 @@ public class OVROverlay : MonoBehaviour
 		Cubemap = OVRPlugin.OverlayShape.Cubemap,
 		OffcenterCubemap = OVRPlugin.OverlayShape.OffcenterCubemap,
 		Equirect = OVRPlugin.OverlayShape.Equirect,
+		Fisheye = OVRPlugin.OverlayShape.Fisheye,
 	}
 
 	/// <summary>
@@ -451,6 +454,15 @@ public class OVROverlay : MonoBehaviour
 		textureRectMatrix.leftRect = srcRectLeftConverted;
 		textureRectMatrix.rightRect = srcRectRightConverted;
 
+		// Fisheye layer requires a 0.5f offset for texture to be centered on the fisheye projection
+		if (currentOverlayShape == OverlayShape.Fisheye)
+		{
+			destRectLeftConverted.x -= 0.5f;
+			destRectLeftConverted.y -= 0.5f;
+			destRectRightConverted.x -= 0.5f;
+			destRectRightConverted.y -= 0.5f;
+		}
+
 		float leftWidthFactor = srcRectLeft.width / destRectLeft.width;
 		float leftHeightFactor = srcRectLeft.height / destRectLeft.height;
 		textureRectMatrix.leftScaleBias = new Vector4(leftWidthFactor, leftHeightFactor, srcRectLeftConverted.x - destRectLeftConverted.x * leftWidthFactor, srcRectLeftConverted.y - destRectLeftConverted.y * leftHeightFactor);
@@ -796,10 +808,11 @@ public class OVROverlay : MonoBehaviour
 				UnityEngine.Object.DestroyImmediate(previewObject);
 				previewObject = null;
 			}
-		#endif
+#endif
 	}
 
-#region Unity Messages
+
+	#region Unity Messages
 
 	void Awake()
 	{
@@ -941,8 +954,11 @@ public class OVROverlay : MonoBehaviour
 		if (currentOverlayShape == OverlayShape.Cubemap)
 		{
 #if UNITY_ANDROID && !UNITY_EDITOR
-			//HACK: VRAPI cubemaps assume are yawed 180 degrees relative to LibOVR.
-			pose.orientation = pose.orientation * Quaternion.AngleAxis(180, Vector3.up);
+			if (OVRPlugin.nativeXrApi != OVRPlugin.XrApi.OpenXR)
+			{
+				//HACK: VRAPI cubemaps assume are yawed 180 degrees relative to LibOVR.
+				pose.orientation = pose.orientation * Quaternion.AngleAxis(180, Vector3.up);
+			}
 #endif
 			pose.position = headCamera.transform.position;
 		}
@@ -958,8 +974,8 @@ public class OVROverlay : MonoBehaviour
 			}
 		}
 
-		// Cylinder overlay sanity checking
-		if (currentOverlayShape == OverlayShape.Cylinder)
+		// Cylinder overlay sanity checking when not using OpenXR
+		if (OVRPlugin.nativeXrApi != OVRPlugin.XrApi.OpenXR && currentOverlayShape == OverlayShape.Cylinder)
 		{
 			float arcAngle = scale.x / scale.z / (float)Math.PI * 180.0f;
 			if (arcAngle > 180.0f)
@@ -1106,10 +1122,11 @@ public class OVROverlay : MonoBehaviour
 			if (frameIndex > prevFrameIndex)
 			{
 				int stage = frameIndex % stageCount;
-				if (!PopulateLayer (newDesc.MipLevels, isHdr, newDesc.TextureSize, newDesc.SampleCount, stage))
+				if (!PopulateLayer(newDesc.MipLevels, isHdr, newDesc.TextureSize, newDesc.SampleCount, stage))
 					return;
 			}
 		}
+
 
 		bool isOverlayVisible = SubmitLayer(overlay, headLocked, noDepthBufferTesting, pose, scale, frameIndex);
 
