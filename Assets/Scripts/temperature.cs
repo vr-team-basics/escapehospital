@@ -57,7 +57,7 @@ public class temperature : MonoBehaviour
         //for each vertice, we want to look around for fire that is near IT
         if (numberOfFires <= maxNumFireForThisObject && !done)
         {
-            hitcolliders = Physics.OverlapSphere(this.transform.position, 5f);
+            hitcolliders = Physics.OverlapSphere(this.transform.position, 2f);
             for (var i = 0; i < vertices.Length / 2; i++)
             {
                 //check for colliders around that vertice
@@ -86,16 +86,16 @@ public class temperature : MonoBehaviour
     private IEnumerator LetFireSpread(Collider hitColide, Vector3 verticeIndex)
     {
         int value = 3;
-        while (SpreadBetweenTwoPoints(hitColide.transform.position, this.transform.position, value))
+        while (SpreadBetweenTwoPoints(hitColide.transform.position, this.transform.position, value, hitColide))
         {
             value -= 1;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(6f);
         }
-        
-        //just use normal fire prefab now!
-        Instantiate(firepropagatingPreFab, this.transform.position, firepropagatingPreFab.transform.rotation);
 
-       // Instantiate(firepropagatingPreFab, verticeIndex, this.transform.rotation);
+        //just use normal fire prefab now!
+        //Instantiate(firepropagatingPreFab, this.transform.position, firepropagatingPreFab.transform.rotation);
+        Instantiate(firepropagatingPreFab, this.transform.position, hitColide.transform.rotation);
+        // Instantiate(firepropagatingPreFab, verticeIndex, this.transform.rotation);
 
     }
 
@@ -110,7 +110,7 @@ public class temperature : MonoBehaviour
         distance.z = final.z - initial.z;
         return distance;
     }
-    bool SpreadBetweenTwoPoints(Vector3 initial, Vector3 final, int value)
+    bool SpreadBetweenTwoPoints(Vector3 initial, Vector3 final, int value, Collider hitColide)
     {
         //the distance between any two fires will always be below 5.0f (BECAUSE OF THE RADIUS YOU HAVE NOW) THIS CAN BE CHANGED THOUGH SO BE CAREFUL!
         float incrementX = 0.0f;
@@ -127,8 +127,8 @@ public class temperature : MonoBehaviour
             incrementX = difference.x / value;
             incrementY = difference.y / value;
             incrementZ = difference.z / value;
-
-            Instantiate(firepropagatingPreFab, new Vector3(initial.x + incrementX, initial.y + incrementY, initial.z + incrementZ), this.transform.rotation);
+            //old version : Instantiate(firepropagatingPreFab, new Vector3(initial.x + incrementX, initial.y + incrementY, initial.z + incrementZ), this.transform.rotation);
+            Instantiate(firepropagatingPreFab, new Vector3(initial.x + incrementX, initial.y + incrementY, initial.z + incrementZ), hitColide.transform.rotation);
             return true;
         }
         return false;
