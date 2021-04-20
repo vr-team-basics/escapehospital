@@ -4,20 +4,38 @@ using UnityEngine;
 
 public class doorRaiser : MonoBehaviour
 {
-    public GameObject wheel;
-    public float wheelRotation;
+    public GameObject open;
+    public GameObject close;
+    public GameObject door;
+    public float speed;
+    public bool opened = false;
+
+    public void opendoor()
+    {
+        opened = true;
+    }
+    public void closedoor()
+    {
+        opened = false;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        wheelRotation = wheel.transform.localEulerAngles.z;
-        this.transform.position = new Vector3(this.transform.position.x, (5.3f - (wheel.transform.localEulerAngles.z / 90.0f)), this.transform.position.z);
+        float step = speed * Time.deltaTime;
+        if (opened)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, open.transform.position, step);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, close.transform.position, step);
+        }
     }
 }

@@ -24,29 +24,58 @@ public class SceneSwapper : MonoBehaviour
     public void SwapObjects()
     {
         UpdateAdjacentScenes();
-        AsyncOperation op = SceneManager.LoadSceneAsync(SwapToScene, LoadSceneMode.Additive);
-        op.completed += Op_completed;
+            try
+            {
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(SwapToScene));
+            }
+            catch
+            {
+                Debug.Log("Failed to swap scene..");
+            }
+            //AsyncOperation op = SceneManager.LoadSceneAsync(SwapToScene, LoadSceneMode.Additive);
+            //op.completed += Op_completed;
 
-        void Op_completed(AsyncOperation obj)
-        {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(SwapToScene));
-        }
+            //void Op_completed(AsyncOperation obj)
+            //{
+            //}
 
     }
     #endregion
-
+    private static bool IsLoaded(string name)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).name == name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     private void UpdateAdjacentScenes()
     {
-        foreach (string s in LoadScenes)
+        try
         {
-            Debug.Log("Loading: " + s);
-            SceneManager.LoadSceneAsync(s, LoadSceneMode.Additive);
-        }
 
-        foreach (string s in UnloadScenes)
+            foreach (string s in LoadScenes)
+            {
+                if (!IsLoaded(s))
+                {
+                    SceneManager.LoadSceneAsync(s, LoadSceneMode.Additive);
+                }
+            }
+
+            foreach (string s in UnloadScenes)
+            {
+                if (IsLoaded(s))
+                {
+                    SceneManager.UnloadSceneAsync(s);
+                }
+            }
+        }
+        catch
         {
-            Debug.Log("Unloading: " + s);
-            SceneManager.UnloadSceneAsync(s);
+            Debug.Log("No scene to load or unload.");
         }
     }
 }

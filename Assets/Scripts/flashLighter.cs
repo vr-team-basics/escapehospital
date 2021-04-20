@@ -25,26 +25,9 @@ public class flashLighter : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "left-hand")
+        if (other.tag == "hand")
         {
-            //check for the button being pressed indicating that the player is using the fire extinquisher
-            if (Input.GetKey(KeyCode.F))
-            {
-                lit = !lit;
-                thisLight.SetActive(lit);
-                if (lit)
-                {
-                    thisSwitch.transform.localEulerAngles = new Vector3(10.0f, thisSwitch.transform.localEulerAngles.y, thisSwitch.transform.localEulerAngles.z);
-                }
-                else
-                {
-                    thisSwitch.transform.localEulerAngles = new Vector3(-10.0f, thisSwitch.transform.localEulerAngles.y, thisSwitch.transform.localEulerAngles.z);
-                }
-            }
-        }
-        if (other.tag == "right-hand")
-        {
-            //check for the button being pressed indicating that the player is using the fire extinquisher
+            //check for the button being pressed indicating that the player is using the flashlight
             if (Input.GetKey(KeyCode.F))
             {
                 lit = !lit;

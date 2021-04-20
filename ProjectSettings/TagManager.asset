@@ -12,6 +12,9 @@ TagManager:
   - uiText
   - left-hand
   - right-hand
+  - distancegrab
+  - bullet
+  - hand
   layers:
   - Default
   - TransparentFX

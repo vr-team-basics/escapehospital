@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8874705432916220220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8874705432916220162}
+  - component: {fileID: 8372193753527768888}
+  - component: {fileID: 9136283551659551053}
+  - component: {fileID: 8874705432916220221}
+  - component: {fileID: 8874705432916220222}
+  m_Layer: 0
+  m_Name: GlobalSceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8874705432916220162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874705432916220220}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8372193753527768888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874705432916220220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8683013d79a907f4fac5182b1aaabf1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9136283551659551053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874705432916220220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3424a390085bb1a4788efc21a78cdd10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SwapToScene: Load Scene
+  LoadScenes:
+  - Persistence
+  - Load Scene
+  UnloadScenes:
+  - world of blobs
+  MySceneName: 
+--- !u!114 &8874705432916220221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874705432916220220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da6aa058a4970544ae1adac17bffc22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SwapToScene: Loading Scene
+  LoadScenes: []
+  UnloadScenes: []
+  MySceneName: 
+--- !u!114 &8874705432916220222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874705432916220220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ce40df16fb1f848a04940f2c76f6ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnerScene:
+  - world of blobs
+  IntroScene:
+  - Loading Scene
+  spawner: {fileID: 0}
+  destroyButton1: {fileID: 0}
+  destroyButton2: {fileID: 0}
+  makeButton1: {fileID: 0}
+  makeButton2: {fileID: 0}
+  target1: {fileID: 0}
+  target2: {fileID: 0}
+  target3: {fileID: 0}
+  intro: {fileID: 0}
