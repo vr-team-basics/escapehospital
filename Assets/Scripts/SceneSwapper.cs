@@ -24,14 +24,14 @@ public class SceneSwapper : MonoBehaviour
     public void SwapObjects()
     {
         UpdateAdjacentScenes();
-            try
-            {
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(SwapToScene));
-            }
-            catch
-            {
-                Debug.Log("Failed to swap scene..");
-            }
+        try
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(SwapToScene));
+        }
+        catch
+        {
+            Debug.Log("Failed to swap scene..");
+        }
             //AsyncOperation op = SceneManager.LoadSceneAsync(SwapToScene, LoadSceneMode.Additive);
             //op.completed += Op_completed;
 
@@ -62,6 +62,14 @@ public class SceneSwapper : MonoBehaviour
                 if (!IsLoaded(s))
                 {
                     SceneManager.LoadSceneAsync(s, LoadSceneMode.Additive);
+                    try
+                    {
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(SwapToScene));
+                    }
+                    catch
+                    {
+                        Debug.Log("Failed to swap scene..");
+                    }
                 }
             }
 

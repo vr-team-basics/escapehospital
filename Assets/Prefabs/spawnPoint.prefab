@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnables:
-  - {fileID: 4830029955038417400, guid: ab7983a1a6d025347b160783a82de384, type: 3}
+  - {fileID: 8821228906372702057, guid: 58bba991669668e4d90746f6855d6d3a, type: 3}
   - {fileID: 4803896838154321537, guid: 9b07ceeabca20824496cbeadf9abf7ce, type: 3}
+  - {fileID: 5565507294066790409, guid: 9a292b0a8011a814abb86ea841cd59e0, type: 3}
+  - {fileID: 3581586717150412851, guid: c395ce97288133a45b5a797a8a820579, type: 3}
   randItem: 0
+  spawned: {fileID: 0}

@@ -11555,7 +11555,7 @@ GameObject:
   - component: {fileID: 7881974904396264297}
   m_Layer: 0
   m_Name: Interactions.Interactable.flashlight
-  m_TagString: fireExtinguisher
+  m_TagString: distancegrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

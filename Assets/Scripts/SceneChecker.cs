@@ -12,23 +12,32 @@ public class SceneChecker : MonoBehaviour
     public GameObject spawner;
     public GameObject intro;
 
+    public bool hud;
+
     private void Start()
     {
         spawner = GameObject.Find("CanvasSpawner");
         intro = GameObject.Find("CanvasIntro");
+        hud = true;
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            hud = !hud;
+        }
+
+
         foreach (string s in SpawnerScene)
         {
             if (SceneManager.GetActiveScene().name == s)
             {
-                spawner.SetActive(true);
+                spawner.SetActive(hud);
                 break;
             }
             else if(intro.activeInHierarchy)
             {
-                spawner.SetActive(false);
+                spawner.SetActive(!hud);
             }
 
         }

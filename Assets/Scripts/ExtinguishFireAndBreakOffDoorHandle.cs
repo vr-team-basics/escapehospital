@@ -25,30 +25,7 @@ public class ExtinguishFireAndBreakOffDoorHandle : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "left-hand")
-        {
-            //check for the button being pressed indicating that the player is using the fire extinquisher
-            if (Input.GetKey(KeyCode.E))
-            {
-                //enable the particle system to start (foam is coming out)
-                thisParticle.Play();
-                this.GetComponent<AudioSource>().Play();
-
-                //play around with the arguments here
-                //Shoot out a raycastall to get a list of the colliders
-                hits = Physics.RaycastAll(thisParticle.transform.position, thisParticle.transform.forward, 15.0F);
-                //Loop over the colliders checking to see if they have the tag, "Fire"
-                foreach (RaycastHit hitObject in hits)
-                {
-                    //If they do, then delete them from the scene. 
-                    if (hitObject.transform.tag == "fire")
-                    {
-                        StartCoroutine(Wait(hitObject));
-                    }
-                }
-            }
-        }
-        if (other.tag == "right-hand")
+        if (other.tag == "hand")
         {
             //check for the button being pressed indicating that the player is using the fire extinquisher
             if (Input.GetKey(KeyCode.E))

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class OxygenTest : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class OxygenTest : MonoBehaviour
     // Amount of fires
     private uint NumOfFire;
 
-    public Text uiText;
+    public TextMeshProUGUI uiText;
 
     // Calculate amount of oxygen every n seconds
     private void CalculateOxygen()
@@ -54,8 +55,6 @@ public class OxygenTest : MonoBehaviour
     void Start()
     {
         NumOfFire = 0;
-
-        uiText = GameObject.FindGameObjectsWithTag("uiText")[0].GetComponent<Text>();
 
         // Call calculation method.
         InvokeRepeating("CalculateOxygen", 2.0f, Seconds);
